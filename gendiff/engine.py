@@ -63,7 +63,7 @@ def get_diff(old, new):
             result += f'{PREFIX_NCh}{key}: {old[key]},\n'
         else:
             result += f'{PREFIX_ADD}{key}: {new[key]},\n'
-    result += '}'
+    result += '}\n'
     return result
         
         
