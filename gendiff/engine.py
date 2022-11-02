@@ -35,6 +35,16 @@ def convertator(data, extension):
     return formats[extension](data)
 
 
+def get_dickt(old, new):
+    Ord = {}
+    for key, value in new.items():
+        Ord[key] = value
+    for key, value in old.items():
+        Ord[key] = value
+    Ord = OrderedDict(sorted(Ord.items()))
+    return Ord
+
+
 def get_diff(old, new):
     """
     Сompares two dictionaries and outputs the differences between them
@@ -42,17 +52,9 @@ def get_diff(old, new):
     new (dict): second dict
     return (OrderDict): OrderDict with differences
     """
-    Ord = {}
-    for key, value in new.items():
-        Ord[key] = value
-    for key, value in old.items():
-        Ord[key] = value
-        
-    Ord = OrderedDict(sorted(Ord.items()))
-    
+    Ord = get_dickt(old, new)
     result = '{\n'
     old_keys = set(old.keys()) - set(new.keys())
-    new_keys = set(new.keys()) - set(old.keys())
     for key in Ord:
         if key in old_keys:
             result += f'{PREFIX_DEL}{key}: {old[key]},\n'
@@ -65,8 +67,8 @@ def get_diff(old, new):
             result += f'{PREFIX_ADD}{key}: {new[key]},\n'
     result += '}\n'
     return result
-        
-        
+
+
 def generate_diff(file_path1, file_path2):
     """
     Finds differences between two files
@@ -75,4 +77,3 @@ def generate_diff(file_path1, file_path2):
     data2 = convertator(read_data(file_path2), get_format(file_path2))
     diff = get_diff(data1, data2)
     return diff
-    
