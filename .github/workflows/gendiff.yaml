@@ -25,7 +25,7 @@ jobs:
         run: |
           make check
       - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v2.7.4
+        uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: cb70907c5930cf20da6e0378115e0e3a01d5e7e1017b746855cede87d4ee3924
         with:
