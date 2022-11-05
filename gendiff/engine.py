@@ -1,9 +1,7 @@
 from collections import OrderedDict
-import json
+from gendiff.parser import convertator
 import os
 
-formats = {
-    'json': json.load}
 
 PREFIX_ADD = '  + '
 PREFIX_DEL = '  - '
@@ -25,17 +23,12 @@ def get_format(pathfile: str) -> str:
     return extension
 
 
-def convertator(data, extension):
-    """
-    Сonverts files of different formats into a python dictionary
-    """
-    if extension not in formats:
-        raise TypeError('Unsupported format. Next formats are supported: {}'
-                        .format(formats.keys()))
-    return formats[extension](data)
-
-
 def get_dickt(old, new):
+    """
+    Cli function. Fix linter error 'too complex'
+    in function get diff
+    # Временный костыль, а может и не временный =)
+    """
     Ord = {}
     for key, value in new.items():
         Ord[key] = value
