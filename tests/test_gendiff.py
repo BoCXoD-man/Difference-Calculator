@@ -14,4 +14,4 @@ formats = ['stylish', 'plain', 'json']
                                                                  (yaml_1, yaml_2, formats[0], result)])
 def test_generate_diff(path1, path2, format_name, expected):
     with open(expected) as f:
-        assert gen_diff.generate_diff(path1, path2, format_name) == f.read()
+        assert engine.generate_diff(path1, path2, format_name) == f.read()
