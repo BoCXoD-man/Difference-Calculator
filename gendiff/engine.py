@@ -24,7 +24,7 @@ def get_format(pathfile: str) -> str:
     return extension
 
 
-def get_diff(old: dict, new: dict) -> OrderedDict:
+def get_diff(old: dict, new: dict) -> OrderedDict:  # noqa
     """
     Compares two python dict and generates one common OrderDict with differences.  # noqa: E501
     old (dict): first dict
@@ -63,7 +63,7 @@ def generate_diff(path1: str, path2: str, format_name='stylish') -> str:
     format_name (str): format output data, default=stylish
     return (str): depends on param "format_name"
     """
-    data1 = convertator(read_data(file_path1), get_format(file_path1))
-    data2 = convertator(read_data(file_path2), get_format(file_path2))
+    data1 = convertator(read_data(path1), get_format(path1))
+    data2 = convertator(read_data(path2), get_format(path2))
     diff = get_diff(data1, data2)
     return FORMATTERS[format_name].format(diff)
