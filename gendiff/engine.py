@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from gendiff.parser import convertator
+from gendiff.formatters import FORMATTERS
 import os
 
 
@@ -23,50 +24,46 @@ def get_format(pathfile: str) -> str:
     return extension
 
 
-def get_dickt(old, new):
+def get_diff(old: dict, new: dict) -> OrderedDict:
     """
-    Cli function. Fix linter error 'too complex'
-    in function get diff
-    # Временный костыль, а может и не временный =)
-    """
-    Ord = {}
-    for key, value in new.items():
-        Ord[key] = value
-    for key, value in old.items():
-        Ord[key] = value
-    Ord = OrderedDict(sorted(Ord.items()))
-    return Ord
-
-
-def get_diff(old, new):
-    """
-    Сompares two dictionaries and outputs the differences between them
+    Compares two python dict and generates one common OrderDict with differences.  # noqa: E501
     old (dict): first dict
     new (dict): second dict
     return (OrderDict): OrderDict with differences
     """
-    Ord = get_dickt(old, new)
-    result = '{\n'
+    res = {}
     old_keys = set(old.keys()) - set(new.keys())
-    for key in Ord:
-        if key in old_keys:
-            result += f'{PREFIX_DEL}{key}: {old[key]},\n'
-        elif key in old.keys() and key in new.keys() and old[key] != new[key]:
-            result += f'{PREFIX_DEL}{key}: {old[key]},\n'
-            result += f'{PREFIX_ADD}{key}: {new[key]},\n'
-        elif key in old.keys() and key in new.keys() and old[key] == new[key]:
-            result += f'{PREFIX_NCh}{key}: {old[key]},\n'
-        else:
-            result += f'{PREFIX_ADD}{key}: {new[key]},\n'
-    result += '}\n'
-    return result
+    for key in old_keys:
+        res[key] = {'status': 'removed', 'value': old[key]}
+
+    new_keys = set(new.keys()) - set(old.keys())
+    for key in new_keys:
+        res[key] = {'status': 'added', 'value': new[key]}
+
+    for key in old.keys() & new.keys():
+        old_val = old[key]
+        new_val = new[key]
+        if isinstance(old[key], dict) and isinstance(new[key], dict):
+            res[key] = \
+                {'status': 'nested', 'value': get_diff(old_val, new_val)}
+        elif old_val == new_val:
+            res[key] = \
+                {'status': 'unchanged', 'value': old_val}
+        elif old_val != new_val:
+            res[key] = \
+                {'status': 'changed', 'old_value': old_val, 'new_value': new_val}  # noqa: E501
+    return OrderedDict(sorted(res.items()))
 
 
-def generate_diff(file_path1, file_path2):
+def generate_diff(path1: str, path2: str, format_name='stylish') -> str:
     """
     Finds differences between two files
+    path1 (str): pathfile to first file
+    path2 (str): pathfile to second file
+    format_name (str): format output data, default=stylish
+    return (str): depends on param "format_name"
     """
     data1 = convertator(read_data(file_path1), get_format(file_path1))
     data2 = convertator(read_data(file_path2), get_format(file_path2))
     diff = get_diff(data1, data2)
-    return diff
+    return FORMATTERS[format_name].format(diff)
