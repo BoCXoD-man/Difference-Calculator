@@ -4,9 +4,9 @@ from gendiff.formatters.normalize import normalize_values
 def stringify_val(data, depth: int) -> str:
     """
     Converts dict values to string with right indent.
-        data: dict value
-        depth (int): indent depth
-        return (str): string with right indent
+    data: dict value
+    depth (int): indent depth
+    return (str): string with right indent
     """
     if not isinstance(data, dict):
         return data
@@ -20,9 +20,9 @@ def stringify_val(data, depth: int) -> str:
 def stringify_diff(diff: dict, depth=1) -> str:
     """
     Generates list of strings with differences according dict msgs.
-        diff (dict): dict with differences
-        depth (int): indent depth
-        return: strings with right indents
+    diff (dict): dict with differences
+    depth (int): indent depth
+    return: strings with right indents
     """
     lst = []
     STATUS = {
@@ -53,8 +53,8 @@ def stringify_diff(diff: dict, depth=1) -> str:
 def format(diff: dict) -> str:
     """
     Main func for stylish format output.
-        diff (dict): dict with differences
-        return: str
+    diff (dict): dict with differences
+    return: str
     """
     diff = normalize_values(diff)
     return f"{{\n{stringify_diff(diff)}}}"
