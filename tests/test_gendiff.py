@@ -5,13 +5,16 @@ json_1 = "tests/fixtures/file1.json"
 json_2 = "tests/fixtures/file2.json"
 yaml_1 = "tests/fixtures/file1.yml"
 yaml_2 = "tests/fixtures/file2.yml"
-result = "tests/fixtures/result"
+res_stylish = "tests/fixtures/result_stylish"
+res_plain = "tests/fixtures/result_plain"
 
 
-formats = ['stylish']
+formats = ['stylish', 'plain']
 
-@pytest.mark.parametrize('path1, path2, format_name, expected', [(json_1, json_2, formats[0], result),
-                                                                 (yaml_1, yaml_2, formats[0], result)])
+@pytest.mark.parametrize('path1, path2, format_name, expected', [(json_1, json_2, formats[0], res_stylish),
+                                                                 (yaml_1, yaml_2, formats[0], res_stylish),
+                                                                 (json_1, json_2, formats[1], res_plain),
+                                                                 (yaml_1, yaml_2, formats[1], res_plain)])
 def test_generate_diff(path1, path2, format_name, expected):
     with open(expected) as f:
         assert engine.generate_diff(path1, path2, format_name) == f.read()
