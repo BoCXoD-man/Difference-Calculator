@@ -21,4 +21,3 @@ formats = ['stylish', 'plain', 'json']
 def test_generate_diff(path1, path2, format_name, expected):
     with open(expected) as f:
         assert engine.generate_diff(path1, path2, format_name) == f.read()
-        
