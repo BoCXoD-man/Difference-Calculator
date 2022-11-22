@@ -62,4 +62,4 @@ def format(diff: dict) -> str:
     """
     diff = normalize_values(diff)
     diff = gen_plain_diff(diff)
-    return '\n'.join(filter(lambda _: _ != '', diff)) + '\n'
+    return '\n'.join(filter(lambda _: _ != '', diff))

@@ -11,4 +11,4 @@ def format(diff: dict) -> str:
     return: json format data
     """
     diff = normalize_values(diff)
-    return json.dumps(diff, indent=4) + '\n'
+    return json.dumps(diff, indent=4)

@@ -1,6 +1,6 @@
 from gendiff.parser import convertator
-from gendiff.formatters import FORMATTERS
 from gendiff.tree import get_diff
+from gendiff.formatters.formatting import formatting
 import os
 
 
@@ -35,4 +35,4 @@ def generate_diff(path1: str, path2: str, format_name='stylish') -> str:
     data1 = convertator(read_data(path1), get_format(path1))
     data2 = convertator(read_data(path2), get_format(path2))
     diff = get_diff(data1, data2)
-    return FORMATTERS[format_name].format(diff)
+    return formatting(diff, format_name)

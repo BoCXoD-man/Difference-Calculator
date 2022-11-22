@@ -57,4 +57,4 @@ def format(diff: dict) -> str:
     return: str
     """
     diff = normalize_values(diff)
-    return f"{{\n{stringify_diff(diff)}}}\n"
+    return f"{{\n{stringify_diff(diff)}}}"
