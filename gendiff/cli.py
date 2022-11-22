@@ -12,6 +12,3 @@ def parse_cli_args():
 
     args = parser.parse_args()
     return args.first_file.lower(), args.second_file.lower(), args.format
-
-
-path1, path2, format_name = parse_cli_args()

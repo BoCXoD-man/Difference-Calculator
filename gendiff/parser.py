@@ -13,6 +13,6 @@ def convertator(data, extension):
     Сonverts files of different formats into a python dictionary
     """
     if extension not in formats:
-        raise TypeError('Unsupported format. Next formats are supported: {}'
-                        .format(formats.keys()))
+        raise ValueError('Unsupported format. Next formats are supported: {}'
+                         .format(formats.keys()))
     return formats[extension](data)
